@@ -1,39 +1,31 @@
 let rs = require("readline-sync");
 
-let operator = "";
-let firstNum = undefined;
-let secondNum = undefined;
+const operators = ["/", "*", "-", "+"];
 
-function getOp() {
+let operator = getOp(operators);
+let firstNum = getNums("first");
+let secondNum = getNums("second");
+
+function getOp(ops) {
    let input = rs.question("What operation would you like to perform? ");
-   if (input === "/" || input === "*" || input === "-" || input === "+") {
-      return (operator = input);
+   if (ops.includes(input)) {
+      return input;
    } else {
       console.log("That is not a valid operation - try again");
-      getOp();
+      return getOp(ops);
    }
 }
 
-function getNums() {
-   if (firstNum === undefined) {
-      let input = rs.question("Please enter the first number- ");
-      if (!isNaN(input)) {
-         return (firstNum = Number(input));
-      }
-   } else if (secondNum === undefined) {
-      let input = rs.question("Please enter the second number- ");
-      if (!isNaN(input)) {
-         return (secondNum = Number(input));
-      }
+function getNums(str) {
+   let input = rs.question("Please enter the " + str + " number- ");
+   if (!isNaN(input)) {
+      return Number(input);
    }
    console.log("This is not a number - try again");
-   getNums();
+   return getNums(str);
 }
 
-function calculate() {
-   getOp();
-   getNums();
-   getNums();
+function calculate(operator, firstNum, secondNum) {
    let num = 0;
    if (operator === "/") {
       num = firstNum / secondNum;
@@ -62,4 +54,4 @@ function calculate() {
    }
 }
 
-console.log("The result is: " + calculate());
+console.log("The result is: " + calculate(operator, firstNum, secondNum));
